@@ -1,0 +1,1 @@
+Sitemap: https://staeff.github.io/fastblog/sitemap.xml
