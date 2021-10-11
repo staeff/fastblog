@@ -2,17 +2,17 @@ name: CI
 on:
   push:
     branches:
-      - master # need to filter here so we only deploy when there is a push to master
+      - main # need to filter here so we only deploy when there is a push to master
   # no filters on pull requests, so intentionally left blank
   pull_request:
   workflow_dispatch:
 
-jobs:     
+jobs:
   build-site:
     if: ( github.event.commits[0].message != 'Initial commit' ) || github.run_number > 1
     runs-on: ubuntu-latest
     steps:
-      
+
     - name: Check if secret exists
       if: github.event_name == 'push'
       run: |
@@ -23,7 +23,7 @@ jobs:
         fi
       env:
        deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
-          
+
 
     - name: Copy Repository Contents
       uses: actions/checkout@main
@@ -44,7 +44,7 @@ jobs:
         args: bash -c "jekyll build -V --strict_front_matter --trace"
       env:
         JEKYLL_ENV: 'production'
-        
+
     - name: copy CNAME file into _site if CNAME exists
       run: |
         sudo chmod -R 777 _site/
